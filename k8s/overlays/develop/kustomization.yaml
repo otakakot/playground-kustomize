@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../../bases/
+replicas:
+- name: nginx # metadata.name と一致させる
+  count: 1
+configMapGenerator:
+- name: environments
+  envs:
+  - .env
