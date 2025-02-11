@@ -5,6 +5,14 @@ resources:
 replicas:
 - name: nginx # metadata.name と一致させる
   count: 3
+patches:
+- patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: nginx  
+      labels:
+        environment: production
 configMapGenerator:
 - name: environments
   envs:
