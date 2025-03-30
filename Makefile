@@ -6,6 +6,11 @@ help: ## display this help screen
 setup: ## make kind
 	@./script/setup.sh
 
+.PHONY: lint
+lint: ## make lint
+#	@polaris fix --files-path ./k8s/bases/ --checks=all
+	@polaris audit --audit-path ./k8s/bases --format=pretty
+
 .PHONY: develop
 develop: ## make develop
 	@kubectl kustomize k8s/overlays/develop 

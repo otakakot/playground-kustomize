@@ -5,7 +5,7 @@ metadata:
   labels:
     app: nginx
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: nginx
@@ -16,16 +16,43 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: nginx:latest
+          image: nginx:stable
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
           resources:
             limits:
-              cpu: "1"
-              memory: 32Mi
+              cpu: 100m # TODO: Set this to the maximum amount of CPU you want your workload to use
+              memory: 512Mi # TODO: Set this to the maximum amount of memory you want your workload to use
+            requests:
+              cpu: 100m # TODO: Set this to the amount of CPU you want to reserve for your workload
+              memory: 512Mi # TODO: Set this to the amount of Memory you want to reserve for your workload
           env:
             - name: ENV
               valueFrom:
                 configMapKeyRef:
                   name: environments
                   key: ENV
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            capabilities:
+              drop:
+                - ALL
+            allowPrivilegeEscalation: false
+            privileged: false
+          readinessProbe:
+            # TODO: Change the readinessProbe setting to reflect your application's readiness to serve traffic
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            # TODO: Change the livenessProbe setting to reflect your application's health
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
+      priorityClassName: high-priority
