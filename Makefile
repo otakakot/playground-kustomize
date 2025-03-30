@@ -8,7 +8,7 @@ setup: ## make kind
 
 .PHONY: lint
 lint: ## make lint
-#	@polaris fix --files-path ./k8s/bases/ --checks=all
+	@polaris fix --files-path ./k8s/bases/ --checks=all
 	@polaris audit --audit-path ./k8s/bases --format=pretty
 
 .PHONY: develop

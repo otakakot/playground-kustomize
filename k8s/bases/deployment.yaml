@@ -42,17 +42,14 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
           readinessProbe:
-            # TODO: Change the readinessProbe setting to reflect your application's readiness to serve traffic
             httpGet:
               path: /
               port: 80
-            initialDelaySeconds: 5
+            initialDelaySeconds: 3
             periodSeconds: 5
           livenessProbe:
-            # TODO: Change the livenessProbe setting to reflect your application's health
             httpGet:
               path: /
               port: 80
-            initialDelaySeconds: 5
+            initialDelaySeconds: 3
             periodSeconds: 5
-      priorityClassName: high-priority
